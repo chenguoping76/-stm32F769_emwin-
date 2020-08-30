@@ -1,0 +1,10 @@
+
+#if (USE_HAL_UART_REGISTER_CALLBACKS == 1)
+      /*Call registered Rx complete callback*/
+      huart->RxCpltCallback(huart);
+#else
+      /*Call legacy weak Rx complete callback*/
+      HAL_UART_RxCpltCallback(huart);
+#endif /* USE_HAL_UART_REGISTER_CALLBACKS */
+
+stm32使用“HAL_”前缀说明这是用户可以调用的函数，因此，在没有USE_HAL_UART_REGISTER_CALLBACKS时，如果用户需要使用RxCpltCallback功能，则需要重新实现——weak 定义的HAL_UART_RxCpltCallback函数
