@@ -1,0 +1,10 @@
+将micropython 移植到 nucleo_f401re上非常方便，下面记录过程：
+在micropython.org官网  https://micropython.org/download/stm32/  下载 nucleo f401re的 固件 dfu文件
+在st.com上下载 STSW-STM32080  工具，安装
+使用dfu file manager, 将 下载的 dfu固件，转化为hex格式
+在windows系统，将上述hex文件copy到nods_f401re的磁盘里，即通过st-link将hex 烧写至 nucleo f401re
+使用一种串口工具，如xshell，连接nucleo f401re的串口，复位一下nucleo f401re
+串口助手出现>>> 提示符，就可以使用了
+
+在串口助手里，输入： pyb.LED(1).on() 可以看到板载LD2 点亮
+在串口助手里，输入： pyb.LED(1).off() 可以看到板载LD2 熄灭
