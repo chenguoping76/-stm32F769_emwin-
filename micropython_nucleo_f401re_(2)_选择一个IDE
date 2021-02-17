@@ -1,0 +1,5 @@
+理论上micropython的解释器和文件系统都在nucleo f401re上，因此，这个系统相当于matlab的命令窗，用户可以使用一切文本编辑工具和交互的repl进行开发。
+但实际上使用一个IDE可以辅助开发人员避免如输入错误或或者进行输入提示等好处
+
+初级的IDE建议使用 Thonny
+中高级IDE建议使用 VS code + micropython 插件
