@@ -1,0 +1,31 @@
+使用vs code平台的platformIO 扩展，可以对stm32进行基于arduino框架的开发，
+
+
+1. GPIO操作
+#include <Arduino.h>
+
+int led = PC13;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(led, LOW);
+  delay(200);
+  digitalWrite(led, HIGH);
+  delay(200);  
+}
+
+2. uart操作
+HardwareSerial Serial1(PA10, PA9);  // RX, TX  全局申明
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial1.begin(9600);
+}
+
+关于arduino 框架的uart定义，参见 https://github.com/stm32duino/Arduino_Core_STM32/issues/779
+缺省Serial为Serial2，即硬件连接PA2(TX), PA3(RX)
