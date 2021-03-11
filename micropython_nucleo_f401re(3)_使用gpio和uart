@@ -1,0 +1,37 @@
+一、使用Nucleo f401re的gpio
+
+from pyb import Pin
+p_out = Pin('A0', Pin.OUT_PP)
+p_out.high()
+
+说明：‘A0’即STM32的PA0引脚
+---------------------------------------------------------------
+
+二、使用nucleo f401re的uart
+from pyb import UART
+u6 = UART(6, 9600)      #设置波特率和串口号
+u6.writechar(65)        #发送字符"A"
+u6.write('xianyu')      #发送字符串“xianyu”
+u6.readchar()           #从接受缓冲区读取一个字符
+u6.readall()            #读取缓冲区全部内容
+u6.readline()           #读取一行
+u6.read(10)             #读取10个字节
+u6.readinto(buf)        #读取缓冲区内容并存放到缓冲区buf
+u6.any()                #检测缓冲区是否收到数据
+
+说明：引至   https://github.com/micropython/micropython/blob/master/ports/stm32/boards/NUCLEO_F401RE/mpconfigboard.h
+// UART config
+#define MICROPY_HW_UART2_TX     (pin_A2)
+#define MICROPY_HW_UART2_RX     (pin_A3)
+#define MICROPY_HW_UART6_TX     (pin_C6)
+#define MICROPY_HW_UART6_RX     (pin_C7)
+// UART 2 connects to the STM32F103 (STLINK) on the Nucleo board
+// and this is exposed as a USB Serial port.
+#define MICROPY_HW_UART_REPL        PYB_UART_2
+#define MICROPY_HW_UART_REPL_BAUD   115200
+
+上述定义说明f401re存在两个uart, 其中uart2 用于REPL与用户交互，uart6可用于其它目的，c6,c7与开发板的CN关系，可由nucleo f401re原理图可知
+
+
+
+在cn10接口的4（C6）和19(c7)引脚
