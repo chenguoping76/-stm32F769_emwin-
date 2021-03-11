@@ -1,0 +1,47 @@
+移植micropython到nuclear_f401re：本教程移植microPython是通过烧写hex文件实现的
+（1）https://www.st.com/en/development-tools/stsw-stm32080.html，即DfuSe下载
+（2）micropython.org官网https://micropython.org/download/stm32/下载核f401re的固件dfu文件
+（3）打开dfu文件将下载的dfu固件，转换为hex格式
+（4）下载ST-LINK Utility，将.hex文件烧录进nuclear_f401re
+（5）使用putty串口工具，连接串口，设置波特率为115200.按下复位键出现提示信息即为成功
+（6）测试：在putty中输入help()可查看帮助，输入pyb.LED（1）.on（）可以看到板载LD2点亮
+
+
+移植成功后在nuclear_f401re使用74hc595实现循环点灯，仅仅需要3个IO口可驱动8个LED灯：
+（1）查看74hc595引脚图，Q0-Q7输出接入LED，Q0为15脚，Q1-Q7分别为1-7脚，8脚接地，16脚接VCC。
+（2）9脚用于级联多个595芯片，暂时不使用。
+（3）14脚是串行输入引脚接入F401的‘A0’，13脚接在GND上使其一直保持低电平输出数据。
+（4）12脚接‘A1’，DS引脚上取数据。11脚接‘A2’，用于操作锁存寄存器。10脚接VCC。
+
+下面实现从Q0-Q7共8个LED灯间隔0.5秒循环点亮
+python code:
+
+import pyb
+from pyb import Pin
+from pyb import delay
+
+p_ds = Pin('A0', Pin.OUT_PP)
+p_rck = Pin('A1', Pin.OUT_PP)
+p_sck = Pin('A2', Pin.OUT_PP)
+
+i = 1
+while i == 1:
+
+    j = 0
+    p_ds.high()
+    p_sck.low()
+    p_sck.high()
+    
+    p_rck.low()
+    p_rck.high()
+    pyb.delay(500)
+
+    while j < 7:
+
+        p_ds.low()
+        p_sck.low()
+        p_sck.high()
+        p_rck.low()
+        p_rck.high()
+        pyb.delay(500)
+        j += 1
