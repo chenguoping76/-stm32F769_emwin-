@@ -29,3 +29,10 @@ void setup() {
 
 关于arduino 框架的uart定义，参见 https://github.com/stm32duino/Arduino_Core_STM32/issues/779
 缺省Serial为Serial2，即硬件连接PA2(TX), PA3(RX)
+
+
+补充说明：
+1. st nucleo f401re 板子也必须通过外部独立usb-uart模块，通过pa9(CN10第21引脚)进行串口收发测试；缺省Serial为Serial2，即硬件连接PA2(TX), 但根据 nucleo f401re 原理图，
+如欲使用CN9的第1，2（D0,D1）作为串口引脚，那么，需要将SB62,SB63连通。
+2. proteus 无法仿真由vs code platformIO 生成的包括1）串口； 2）freeRTOS 代码
+
